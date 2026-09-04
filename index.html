@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detetives do Solo - Ciências, História, Geografia e Matemática</title>
+  <meta name="description" content="Simulador educativo e interdisciplinar para explorar os solos do Brasil, de Santa Catarina e a matemática da proporção, multiplicação e divisão.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ====================================================================
+       CABEÇALHO GLOBAL & BARRA DE RECURSOS (HUD)
+       ==================================================================== -->
+  <header class="app-header">
+    <div class="logo-container">
+      <div class="logo-icon">🌱</div>
+      <div class="logo-text">
+        <h1>Detetives do Solo</h1>
+        <p>Ciências, História, Geografia e Matemática</p>
+      </div>
+    </div>
+
+    <!-- HUD Central: Contador e Mochila de Coleta -->
+    <div class="hud-center">
+      <div class="counter-badge">
+        <span>🎒 Amostras:</span>
+        <span id="counter-samples">0/3</span>
+      </div>
+
+      <div class="inventory-slots" title="Sua Mochila de Coleta (Colete 3 amostras para o laboratório)">
+        <div class="inventory-slot" id="slot-0">
+          <span style="opacity: 0.35;">🏖️</span>
+          <div class="slot-tooltip">Amostra 1</div>
+        </div>
+        <div class="inventory-slot" id="slot-1">
+          <span style="opacity: 0.35;">🌱</span>
+          <div class="slot-tooltip">Amostra 2</div>
+        </div>
+        <div class="inventory-slot" id="slot-2">
+          <span style="opacity: 0.35;">🧱</span>
+          <div class="slot-tooltip">Amostra 3</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações do Cabeçalho -->
+    <div class="hud-actions">
+      <button class="btn btn-primary" id="btn-start-experiment" disabled title="Colete 3 amostras para liberar a bancada de laboratório">
+        🔬 Iniciar Experimento de Filtragem!
+      </button>
+
+      <button class="btn btn-icon" id="btn-toggle-sound" title="Alternar Efeitos Sonoros">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <!-- ====================================================================
+       CONTAINER DAS TELAS DO JOGO
+       ==================================================================== -->
+  <main class="game-viewport">
+
+    <!-- ------------------------------------------------------------------
+         TELA 0: SELEÇÃO DE PERSONAGEM
+         ------------------------------------------------------------------ -->
+    <section class="screen active" id="screen-character-select">
+      <div class="selection-card">
+        <h2>Escolha seu(sua) Cientista! 🧭</h2>
+        <p class="subtitle">Quem vai explorar o cenário para coletar amostras de solo, resolver desafios matemáticos e descobrir a nossa terra?</p>
+
+        <div class="avatars-container">
+          <!-- Personagem Menino: Leo -->
+          <div class="avatar-card selected" id="card-avatar-leo">
+            <div class="avatar-preview" id="preview-leo"></div>
+            <h3>Léo</h3>
+            <span>Explorador da Natureza</span>
+          </div>
+
+          <!-- Personagem Menina: Bia -->
+          <div class="avatar-card" id="card-avatar-bia">
+            <div class="avatar-preview" id="preview-bia"></div>
+            <h3>Bia</h3>
+            <span>Geóloga Curiosa</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btn-start-adventure" style="font-size: 1.15rem; padding: 12px 36px;">
+          🚀 Começar a Caça ao Solo!
+        </button>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------
+         FASE 1: A CAÇA AO SOLO (AVENTURA 2D)
+         ------------------------------------------------------------------ -->
+    <section class="screen" id="screen-phase-1">
+      <div class="map-toolbar">
+        <div class="instructions-badge">
+          <span style="font-size: 1.4rem;">🧭</span>
+          <div>
+            <strong>Missão de Campo:</strong> Ande pelo cenário clicando no chão (ou use as setas). Clique nos pontos 🟡 para examinar a terra, descobrir a história dos colonizadores, caiçaras e ribeirinhos, resolver o <strong>Desafio de Matemática</strong> e <strong>coletar 3 amostras</strong> para o laboratório!
+          </div>
+        </div>
+      </div>
+
+      <!-- Cenário Interativo 2D com Biomas -->
+      <div class="map-container" id="map-container">
+        <div class="map-biome biome-path path-h"></div>
+        <div class="map-biome biome-path path-v"></div>
+        <div class="map-biome biome-sand" title="Zona Litorânea de Areia (Povos Caiçaras)"></div>
+        <div class="map-biome biome-pond" title="Lagoa e Rio (Comunidades Ribeirinhas)"></div>
+        <div class="map-biome biome-garden" title="Horta e Lavouras do Meio-Oeste de Santa Catarina"></div>
+        <div class="map-biome biome-rocky" title="Encosta Pedregosa da Serra"></div>
+        <div class="map-biome biome-clay" title="Barranco de Argila Vermelha dos Colonizadores"></div>
+
+        <!-- Pontos de Coleta Gerados Dinamicamente -->
+        <div id="collection-points-container"></div>
+
+        <!-- Personagem do Jogador -->
+        <div class="player-character" id="player-character"></div>
+
+        <!-- Mini D-pad Virtual para Telas de Toque -->
+        <div class="mobile-dpad">
+          <div></div>
+          <button class="dpad-btn" data-dir="up">▲</button>
+          <div></div>
+          <button class="dpad-btn" data-dir="left">◀</button>
+          <div></div>
+          <button class="dpad-btn" data-dir="right">▶</button>
+          <div></div>
+          <button class="dpad-btn" data-dir="down">▼</button>
+          <div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------
+         FASE 2: O EXPERIMENTO DE FILTRAGEM (LABORATÓRIO CLÁSSICO)
+         ------------------------------------------------------------------ -->
+    <section class="screen" id="screen-phase-2">
+      <div class="lab-container">
+        <div class="lab-header">
+          <div class="lab-title">
+            <h2>🧪 Experimento 2: Permeabilidade & Proporção da Água</h2>
+            <p>Observe a proporção de água que escorre e que fica retida em cada solo (Areia, Terra Escura e Argila)!</p>
+          </div>
+          <div class="lab-quick-actions">
+            <button class="btn btn-lab-action" id="btn-test-all">
+              ⚡ Testar os 3 Juntos
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Linguagem dos mls e Proporção -->
+        <div class="lab-volume-banner">
+          <div>
+            <strong>📐 Medida dos "mls" (Mililitros):</strong> Cada jarro despeja <strong>200 ml de água</strong> (exatamente o volume de 1 copo comum cheio ou 1 caixinha de suco escolar!).
+          </div>
+          <div>
+            <strong>Multiplicação Total:</strong> 3 filtros × 200 ml = <strong>600 ml</strong> (o triplo de 1 copo!).
+          </div>
+        </div>
+
+        <!-- Bancada com os 3 Filtros Canônicos: Areia, Terra Escura de Jardim e Argila -->
+        <div class="lab-bench" id="lab-bench-container">
+          <!-- Gerado via JavaScript com física visual fiel -->
+        </div>
+
+        <!-- Barra Inferior de Status -->
+        <div class="lab-footer-bar">
+          <div class="lab-summary-status">
+            <span>📊</span>
+            <span id="lab-status-text">Filtros testados: 0 de 3</span>
+          </div>
+
+          <button class="btn btn-primary" id="btn-open-report" disabled>
+            🏆 Concluir Experimento e Ver Relatório Científico!
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       MODAL 1: INSPEÇÃO CIENTÍFICA, INTERDISCIPLINAR E MATEMÁTICA
+       ==================================================================== -->
+  <div class="modal-backdrop" id="modal-soil-inspect">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-soil-title">Amostra de Solo</h3>
+        <button class="btn-close-modal" id="btn-close-modal" title="Fechar">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Topo: Frasco e Categoria -->
+        <div class="sample-inspect-grid">
+          <div class="sample-jar-display" id="modal-jar-preview"></div>
+          <div>
+            <span class="sample-badge-tag" id="modal-soil-category">Solo</span>
+            <!-- 1. Havia ou não plantas nesse lugar? -->
+            <div class="pedagogic-plants-box" id="modal-plants-answer">
+              <strong>Havia plantas aqui?</strong><br>Carregando...
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Características Sensoriais para Crianças de 8 Anos -->
+        <div class="sensory-kids-card">
+          <div class="sensory-title">
+            <span>👃</span>
+            <span>Como é esse solo para os nossos sentidos? (Para 8 anos)</span>
+          </div>
+          <div class="sensory-grid">
+            <div class="sensory-item">
+              <strong>Tamanho dos pedaços:</strong>
+              <span id="sensory-tamanho"></span>
+            </div>
+            <div class="sensory-item">
+              <strong>Cor:</strong>
+              <span id="sensory-cor"></span>
+            </div>
+            <div class="sensory-item">
+              <strong>Cheirinho (Odor):</strong>
+              <span id="sensory-odor"></span>
+            </div>
+            <div class="sensory-item">
+              <strong>Aparência & Textura:</strong>
+              <span id="sensory-aparencia"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Geografia & Regiões do Brasil -->
+        <div class="geography-box" id="modal-geo-region"></div>
+
+        <!-- 4. História, Sociedade & Produção -->
+        <div class="history-box">
+          <h5>📜 História, Pessoas e o que a terra produz:</h5>
+          <div id="modal-history-text"></div>
+        </div>
+
+        <!-- 5. NOVO: Desafio Matemático Interativo (Multiplicação, Divisão e Proporção) -->
+        <div class="math-challenge-box">
+          <div class="math-challenge-header">
+            <div class="math-title">
+              <span>🧮</span>
+              <span>Desafio de Matemática da Natureza!</span>
+            </div>
+            <span class="math-concept-tag" id="math-concept-tag">Multiplicação</span>
+          </div>
+          <p class="math-question-text" id="math-question-text"></p>
+          <div class="math-options-row" id="math-options-container"></div>
+          <div class="math-feedback-text" id="math-feedback-text"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-collect-sample">
+          📦 Coletar para o Laboratório
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL 2: RELATÓRIO DO CIENTISTA & CONCLUSÃO (FASE 2)
+       ==================================================================== -->
+  <div class="modal-backdrop" id="modal-conclusion">
+    <div class="modal-content conclusion-card">
+      <div class="modal-header conclusion-header">
+        <h3>🎉 Relatório Científico & Matemático Concluído!</h3>
+        <button class="btn-close-modal" id="btn-close-conclusion" style="color: white;">&times;</button>
+      </div>
+
+      <div class="modal-body conclusion-body">
+        <div class="medal-banner">
+          <div class="medal-icon">🏅</div>
+          <h3>Parabéns, Pequeno(a) Cientista e Mestre dos Cálculos!</h3>
+          <p>Você compreendeu a permeabilidade dos solos, a história do nosso país e a matemática da natureza!</p>
+        </div>
+
+        <!-- Tabela Comparativa de Resultados Canônicos -->
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Solo Testado</th>
+              <th>Permeabilidade</th>
+              <th>Água que Escorreu</th>
+              <th>Água que Ficou Retida</th>
+            </tr>
+          </thead>
+          <tbody id="conclusion-table-body">
+            <!-- Linhas preenchidas via JS -->
+          </tbody>
+        </table>
+
+        <!-- Caixa Didática Interdisciplinar (Ciências, História e Geografia) -->
+        <div class="didactic-box">
+          <h5>🌿 O que aprendemos em Ciências, História e Geografia?</h5>
+          <p>
+            • 🏖️ <strong>Areia (Solo Arenoso):</strong> Tem grãos grandes e espaços abertos. A água passa correndo (185 ml) e quase nada fica retido. No litoral, os <strong>povos caiçaras</strong> usavam o mar e as dunas para pescar.<br><br>
+            • 🌱 <strong>Terra Escura de Jardim (Solo Humífero):</strong> É fofa, cheia de nutrientes e matéria orgânica. Absorve a <strong>metade exata da água</strong> como uma esponja fresca, mantendo raízes hidratadas. Foi esse solo fértil que atraiu as <strong>famílias colonizadoras para o Meio-Oeste de Santa Catarina</strong>, gerando a riqueza da <strong>soja, milho, uva</strong> e a pecuária de <strong>porcos, frangos e gado de leite</strong>!<br><br>
+            • 🧱 <strong>Argila (Solo Argiloso):</strong> Tem partículas microscópicas e muito apertadas. A água empoça e quase não passa (só 25 ml descem). Mas nas mãos dos povos indígenas e colonizadores, virou os <strong>tijolos, telhas e panelas de barro</strong> que ergueram as primeiras moradias!
+          </p>
+        </div>
+
+        <!-- Caixa de Matemática (Proporção, Multiplicação e Divisão) -->
+        <div class="math-summary-box">
+          <h5>📐 O que a Matemática nos ensinou? (Proporção, Multiplicação e Divisão)</h5>
+          <p>
+            • ⭐ <strong>Proporção da Metade (1 para 1):</strong> Dos 200 ml despejados (1 caixinha de suco), a Terra Escura segurou a <strong>metade exata: \(200 \div 2 = 100\text{ ml}\)</strong>! Essa é a proporção ideal da vida vegetal.<br><br>
+            • ✖️ <strong>Multiplicação e Dobro/Triplo:</strong> Se 1 filtro recebe 200 ml de água, 3 filtros recebem o triplo: <strong>\(3 \times 200 = 600\text{ ml}\)</strong> (3 copos cheios!). Na agricultura e pecuária, se dobramos os animais ou as plantações, precisamos multiplicar a comida e a água na mesma proporção!<br><br>
+            • ➗ <strong>Divisão e Repartição Justa:</strong> A divisão é a ferramenta mágica que garante que sementes, alimentos e peixes sejam divididos em partes iguais para todos!
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn btn-primary" id="btn-restart-simulation" style="background: linear-gradient(135deg, #f57c00, #e65100);">
+          🔄 Explorar Outras Amostras de Solo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

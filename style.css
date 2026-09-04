@@ -1,0 +1,1583 @@
+/* ==========================================================================
+   SIMULADOR DE PERMEABILIDADE DO SOLO - ESTILOS (CSS3 PURO)
+   Design lúdico, educativo, interdisciplinar e responsivo
+   Com Matemática (Multiplicação, Divisão e Proporção)
+   ========================================================================== */
+
+:root {
+  --primary-green: #2e7d32;
+  --primary-light: #4caf50;
+  --accent-gold: #fbc02d;
+  --accent-orange: #f57c00;
+  --water-blue: #29b6f6;
+  --water-deep: #0288d1;
+  --earth-brown: #6d4c41;
+  --math-purple: #6a1b9a;
+  --math-light: #f3e5f5;
+  --dark-slate: #263238;
+  --bg-light: #f4f7f6;
+  --card-bg: #ffffff;
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.18);
+  --font-main: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --border-radius-sm: 8px;
+  --border-radius-md: 14px;
+  --border-radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, #e8f5e9 0%, #e1f5fe 100%);
+  color: var(--dark-slate);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   CABEÇALHO GLOBAL & HUD
+   ========================================================================== */
+.app-header {
+  background: white;
+  border-bottom: 3px solid #c8e6c9;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-green));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+}
+
+.logo-text h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1b5e20;
+  line-height: 1.2;
+}
+
+.logo-text p {
+  font-size: 0.8rem;
+  color: #558b2f;
+  font-weight: 600;
+}
+
+.hud-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f1f8e9;
+  padding: 6px 16px;
+  border-radius: 50px;
+  border: 2px solid #dcedc8;
+}
+
+.counter-badge {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #33691e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inventory-slots {
+  display: flex;
+  gap: 8px;
+}
+
+.inventory-slot {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: white;
+  border: 2px dashed #aed581;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.inventory-slot.filled {
+  border: 2px solid #558b2f;
+  background: #dcedc8;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.inventory-slot .slot-tooltip {
+  display: none;
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(33, 33, 33, 0.92);
+  color: white;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.inventory-slot:hover .slot-tooltip {
+  display: block;
+}
+
+.hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botões Genéricos */
+.btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-weight: 700;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #424242;
+  font-size: 1.1rem;
+  border: 2px solid #e0e0e0;
+}
+
+.btn-icon:hover {
+  background: #eeeeee;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: white;
+  padding: 9px 20px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #bdbdbd;
+  color: #757575;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.pulse-animation {
+  animation: pulseHighlight 1.5s infinite;
+}
+
+@keyframes pulseHighlight {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(76, 175, 80, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* ==========================================================================
+   CONTAINER PRINCIPAL DAS TELAS
+   ========================================================================== */
+.game-viewport {
+  flex: 1;
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.screen.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   TELA INICIAL: SELEÇÃO DE PERSONAGEM
+   ========================================================================== */
+.selection-card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 36px 24px;
+  text-align: center;
+  max-width: 680px;
+  margin: auto;
+  box-shadow: var(--shadow-lg);
+  border: 3px solid #c8e6c9;
+}
+
+.selection-card h2 {
+  font-size: 1.9rem;
+  color: #1b5e20;
+  margin-bottom: 8px;
+}
+
+.selection-card p.subtitle {
+  color: #558b2f;
+  font-size: 1.05rem;
+  margin-bottom: 28px;
+}
+
+.avatars-container {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.avatar-card {
+  background: #f9fbf9;
+  border: 3px solid #e0e0e0;
+  border-radius: var(--border-radius-md);
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-card:hover {
+  transform: translateY(-6px);
+  border-color: #81c784;
+  box-shadow: var(--shadow-md);
+}
+
+.avatar-card.selected {
+  border-color: #2e7d32;
+  background: #e8f5e9;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
+}
+
+.avatar-preview {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 14px;
+}
+
+.avatar-card h3 {
+  font-size: 1.3rem;
+  color: #263238;
+  margin-bottom: 4px;
+}
+
+.avatar-card span {
+  font-size: 0.85rem;
+  color: #689f38;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   FASE 1: A CAÇA AO SOLO (MAPA 2D)
+   ========================================================================== */
+.map-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 12px 20px;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.95rem;
+  border-left: 5px solid #2e7d32;
+}
+
+.instructions-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2e7d32;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 590px;
+  background: #81c784;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 4px solid #4caf50;
+  cursor: crosshair;
+}
+
+/* Biomas e decorações no mapa 2D */
+.map-biome {
+  position: absolute;
+  pointer-events: none;
+}
+
+.biome-pond {
+  bottom: 20px;
+  left: 20px;
+  width: 240px;
+  height: 150px;
+  background: radial-gradient(ellipse at center, #29b6f6 0%, #0288d1 100%);
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  border: 6px solid #b3e5fc;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.biome-sand {
+  bottom: 0;
+  left: 0;
+  width: 320px;
+  height: 200px;
+  background: #ffe082;
+  border-radius: 0 160px 0 0;
+  z-index: 1;
+}
+
+.biome-garden {
+  top: 30px;
+  right: 40px;
+  width: 280px;
+  height: 180px;
+  background: #5d4037;
+  border-radius: 18px;
+  border: 6px solid #8d6e63;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+
+.biome-rocky {
+  top: 30px;
+  left: 40px;
+  width: 220px;
+  height: 160px;
+  background: #90a4ae;
+  border-radius: 40% 60% 50% 50%;
+  border: 5px solid #78909c;
+}
+
+.biome-clay {
+  bottom: 40px;
+  right: 60px;
+  width: 260px;
+  height: 180px;
+  background: #d84315;
+  border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+  opacity: 0.9;
+  border: 4px solid #bf360c;
+}
+
+.biome-path {
+  position: absolute;
+  background: #d7ccc8;
+  border: 2px dashed #bcaaa4;
+}
+
+.path-h {
+  top: 250px;
+  left: 0;
+  width: 100%;
+  height: 48px;
+}
+
+.path-v {
+  top: 0;
+  left: 48%;
+  width: 48px;
+  height: 100%;
+}
+
+/* Árvores e Elementos do Cenário */
+.scenery-prop {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+/* Personagem Explorador */
+.player-character {
+  position: absolute;
+  width: 52px;
+  height: 64px;
+  z-index: 20;
+  transform: translate(-50%, -85%);
+  transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1), top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+.player-character.walking {
+  animation: walkBounce 0.25s infinite alternate;
+}
+
+@keyframes walkBounce {
+  from { transform: translate(-50%, -90%) scaleY(1.05) rotate(-2deg); }
+  to { transform: translate(-50%, -80%) scaleY(0.95) rotate(2deg); }
+}
+
+/* Efeito de clique no solo */
+.click-indicator {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 10;
+  animation: clickWave 0.6s ease-out forwards;
+}
+
+@keyframes clickWave {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+}
+
+/* Pontos de Coleta de Solo */
+.collection-point {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  z-index: 15;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.collection-point:hover {
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+.point-bubble {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  border: 3px solid #fbc02d;
+  animation: floatBubble 2.5s infinite ease-in-out;
+  position: relative;
+}
+
+.point-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  width: 12px;
+  height: 6px;
+  background: #fbc02d;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.collection-point.collected {
+  animation: popDisappear 0.4s forwards;
+  pointer-events: none;
+}
+
+@keyframes popDisappear {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.4); }
+  100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+}
+
+/* Controles em Tela para Mobile */
+.mobile-dpad {
+  display: none;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 30;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 4px;
+}
+
+.dpad-btn {
+  background: rgba(255, 255, 255, 0.88);
+  border: 2px solid #aed581;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #33691e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpad-btn:active {
+  background: #c8e6c9;
+}
+
+/* ==========================================================================
+   MODAL DE INSPEÇÃO: SENSORIAL, HISTÓRIA, GEOGRAFIA E MATEMÁTICA
+   ========================================================================== */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  max-width: 660px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid #81c784;
+  overflow: hidden;
+  position: relative;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #a5d6a7;
+  flex-shrink: 0;
+}
+
+.modal-header h3 {
+  font-size: 1.3rem;
+  color: #1b5e20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #558b2f;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-close-modal:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sample-inspect-grid {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sample-jar-display {
+  width: 130px;
+  height: 145px;
+  background: #f1f8e9;
+  border-radius: 16px;
+  border: 3px solid #c5e1a5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.jar-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-top: 8px;
+  color: white;
+}
+
+.sample-badge-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #e0f2f1;
+  color: #00796b;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
+
+/* 1. Bloco de Pergunta: Havia plantas? */
+.pedagogic-plants-box {
+  background: #e8f5e9;
+  border-left: 5px solid #4caf50;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #1b5e20;
+  margin-bottom: 14px;
+}
+
+/* 2. Bloco Sensorial para Crianças de 8 anos */
+.sensory-kids-card {
+  background: #fff9c4;
+  border: 2px solid #fff176;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.sensory-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #f57f17;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sensory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.sensory-item {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ffe082;
+}
+
+.sensory-item strong {
+  color: #e65100;
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+/* 3. Bloco de Geografia */
+.geography-box {
+  background: #e1f5fe;
+  border-left: 5px solid #0288d1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: #01579b;
+  margin-bottom: 14px;
+}
+
+/* 4. Bloco de História e Sociedade */
+.history-box {
+  background: #fbe9e7;
+  border-left: 5px solid #ff5722;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  line-height: 1.48;
+  color: #bf360c;
+  margin-bottom: 14px;
+}
+
+.history-box h5 {
+  font-size: 0.9rem;
+  color: #d84315;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 5. NOVO: Bloco de Desafio Matemático (Multiplicação, Divisão e Proporção) */
+.math-challenge-box {
+  background: #f3e5f5;
+  border: 2px solid #ce93d8;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.math-challenge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.math-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #6a1b9a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.math-concept-tag {
+  background: #ab47bc;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+
+.math-question-text {
+  font-size: 0.88rem;
+  color: #4a148c;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.math-options-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-math-opt {
+  background: white;
+  border: 2px solid #ba68c8;
+  color: #4a148c;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-math-opt:hover {
+  background: #f3e5f5;
+  transform: translateY(-2px);
+  border-color: #7b1fa2;
+}
+
+.btn-math-opt.correct {
+  background: #4caf50 !important;
+  color: white !important;
+  border-color: #2e7d32 !important;
+  transform: scale(1.05);
+}
+
+.btn-math-opt.wrong {
+  background: #ffebee !important;
+  color: #c62828 !important;
+  border-color: #ef9a9a !important;
+  opacity: 0.6;
+}
+
+.math-feedback-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2e7d32;
+  min-height: 22px;
+}
+
+.modal-footer {
+  padding: 14px 22px;
+  background: #f9fbf9;
+  border-top: 1px solid #e8f5e9;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FASE 2: O EXPERIMENTO DE FILTRAGEM (LABORATÓRIO)
+   ========================================================================== */
+.lab-container {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 4px solid #81c784;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-header {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lab-title h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.lab-title p {
+  font-size: 0.85rem;
+  color: #c8e6c9;
+}
+
+.lab-quick-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-lab-action {
+  background: #fbc02d;
+  color: #212121;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-lab-action:hover {
+  background: #fdd835;
+}
+
+/* Barra de Dica Didática de Proporção e Medida em ml */
+.lab-volume-banner {
+  background: #e1f5fe;
+  border-bottom: 2px solid #81d4fa;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #0277bd;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lab-volume-banner strong {
+  color: #01579b;
+}
+
+/* Bancada de testes com os 3 filtros canônicos */
+.lab-bench {
+  background: linear-gradient(to bottom, #eceff1 0%, #cfd8dc 70%, #90a4ae 70%, #607d8b 100%);
+  padding: 26px 20px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  min-height: 520px;
+}
+
+/* Estação de Filtragem Individual */
+.filter-station {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: var(--border-radius-md);
+  border: 3px solid #b0bec5;
+  box-shadow: var(--shadow-md);
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.filter-header-tag {
+  text-align: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.station-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #546e7a;
+  display: block;
+}
+
+.soil-name-tag {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1b5e20;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Jarro / Botão de Adicionar Água */
+.pour-control-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.btn-pour-water {
+  background: linear-gradient(135deg, #0288d1, #01579b);
+  color: white;
+  padding: 9px 14px;
+  font-size: 0.84rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(2, 136, 209, 0.35);
+  width: 95%;
+  text-align: center;
+}
+
+.btn-pour-water:hover:not(:disabled) {
+  background: linear-gradient(135deg, #039be5, #0288d1);
+  transform: translateY(-2px);
+}
+
+.btn-pour-water:disabled {
+  background: #cfd8dc;
+  color: #78909c;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Jarro de água animado */
+.water-pitcher-anim {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  width: 48px;
+  height: 48px;
+  z-index: 30;
+  transform-origin: bottom right;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.water-pitcher-anim.pouring {
+  opacity: 1;
+  transform: rotate(-45deg) translate(-10px, 10px);
+}
+
+/* Jato de água caindo do jarro para o funil */
+.water-stream-inflow {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  width: 8px;
+  height: 0;
+  background: linear-gradient(to bottom, rgba(41, 182, 246, 0.9), rgba(2, 136, 209, 0.7));
+  border-radius: 4px;
+  transform: translateX(-50%);
+  z-index: 25;
+  opacity: 0;
+  transition: height 0.3s ease, opacity 0.2s ease;
+}
+
+.water-stream-inflow.active {
+  opacity: 1;
+  height: 48px;
+  animation: streamWave 0.2s infinite alternate;
+}
+
+@keyframes streamWave {
+  0% { transform: translateX(-52%) scaleX(0.9); }
+  100% { transform: translateX(-48%) scaleX(1.1); }
+}
+
+/* Vidraria do Aparato de Filtragem */
+.apparatus-view {
+  position: relative;
+  width: 190px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stand-rod {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 8px;
+  height: 250px;
+  background: #78909c;
+  border-radius: 4px;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+}
+
+.stand-clamp {
+  position: absolute;
+  left: 6px;
+  top: 70px;
+  width: 80px;
+  height: 8px;
+  background: #546e7a;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+/* Funil com papel de filtro e solo */
+.funnel-glass {
+  position: relative;
+  width: 130px;
+  height: 100px;
+  z-index: 10;
+}
+
+.funnel-cone {
+  width: 100%;
+  height: 70px;
+  background: rgba(224, 247, 250, 0.45);
+  border-top: 3px solid rgba(2, 136, 209, 0.6);
+  border-left: 2px solid rgba(2, 136, 209, 0.5);
+  border-right: 2px solid rgba(2, 136, 209, 0.5);
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.funnel-water-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: rgba(41, 182, 246, 0.7);
+  transition: height 0.6s ease;
+  z-index: 4;
+}
+
+.funnel-soil-bed {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  transition: filter 1s ease;
+  z-index: 2;
+}
+
+.funnel-soil-bed.soaked {
+  filter: brightness(0.75) saturate(1.3);
+}
+
+.funnel-stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 34px;
+  background: rgba(224, 247, 250, 0.5);
+  border-left: 2px solid rgba(2, 136, 209, 0.5);
+  border-right: 2px solid rgba(2, 136, 209, 0.5);
+  border-bottom: 2px solid rgba(2, 136, 209, 0.5);
+}
+
+.funnel-stem-flow {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
+  height: 0%;
+  background: rgba(41, 182, 246, 0.85);
+  border-radius: 2px;
+  transition: height 0.5s ease;
+}
+
+/* Gotas caindo */
+.dripping-container {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 50px;
+  overflow: hidden;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.water-drop {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 8px;
+  height: 12px;
+  background: #0288d1;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.water-drop.animating {
+  animation: dropFall 0.5s linear infinite;
+}
+
+@keyframes dropFall {
+  0% { top: -8px; opacity: 1; transform: translateX(-50%) scale(0.9); }
+  85% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+  100% { top: 48px; opacity: 0; transform: translateX(-50%) scale(1.3); }
+}
+
+/* Béquer Coletor Graduado com Destaque para a METADE (100 ml) */
+.beaker-glass {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 104px;
+  background: rgba(227, 242, 253, 0.45);
+  border: 3px solid rgba(30, 136, 229, 0.65);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.beaker-graduations {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 7.5px;
+  color: #455a64;
+  font-weight: 800;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.grad-mark {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.grad-mark::before {
+  content: '';
+  width: 8px;
+  height: 1.5px;
+  background: #78909c;
+}
+
+/* Destaque especial para a marca de METADE (100 ml) */
+.grad-mark.mark-half {
+  color: #2e7d32;
+  font-size: 8.5px;
+}
+
+.grad-mark.mark-half::before {
+  width: 14px;
+  height: 2px;
+  background: #2e7d32;
+}
+
+.beaker-water-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to top, rgba(2, 136, 209, 0.85), rgba(41, 182, 246, 0.75));
+  transition: height 0.5s ease-out;
+  border-top: 2px solid #81d4fa;
+}
+
+.beaker-water-level.slight-tint {
+  background: linear-gradient(to top, rgba(121, 85, 72, 0.6), rgba(41, 182, 246, 0.6));
+}
+
+.water-surface-ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  animation: surfaceRippling 1s infinite alternate ease-in-out;
+}
+
+@keyframes surfaceRippling {
+  0% { transform: scaleY(0.6); }
+  100% { transform: scaleY(1.4); }
+}
+
+.volume-readout {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0277bd;
+  background: #e1f5fe;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #b3e5fc;
+  text-align: center;
+}
+
+/* Cartão de Resultados com Proporção */
+.filter-results-card {
+  width: 100%;
+  background: #fdfdfd;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid #cfd8dc;
+  padding: 12px;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #37474f;
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.filter-results-card.completed {
+  border-color: #81c784;
+  background: #f1f8e9;
+}
+
+.result-metric-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed #dcedc8;
+}
+
+.result-metric-label {
+  font-weight: 600;
+  color: #558b2f;
+}
+
+.result-metric-value {
+  font-weight: 800;
+  color: #2e7d32;
+}
+
+.result-proportion-highlight {
+  background: #fff9c4;
+  color: #e65100;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin: 4px 0;
+  display: block;
+}
+
+.result-observation-text {
+  font-style: italic;
+  color: #455a64;
+  margin-top: 6px;
+}
+
+/* Barra Inferior da Fase 2 */
+.lab-footer-bar {
+  background: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid #cfd8dc;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lab-summary-status {
+  font-weight: 700;
+  color: #37474f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   MODAL DE CONCLUSÃO & RELATÓRIO DO CIENTISTA E MATEMÁTICO
+   ========================================================================== */
+.conclusion-card {
+  max-width: 740px;
+}
+
+.conclusion-header {
+  background: linear-gradient(135deg, #fbc02d, #f57c00);
+  color: white;
+}
+
+.conclusion-body {
+  padding: 24px;
+}
+
+.medal-banner {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.medal-icon {
+  font-size: 3.5rem;
+  display: inline-block;
+  animation: bounceMedal 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes bounceMedal {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-8px) scale(1.08); }
+}
+
+.medal-banner h3 {
+  font-size: 1.5rem;
+  color: #e65100;
+  margin-top: 6px;
+}
+
+.medal-banner p {
+  color: #616161;
+  font-size: 0.95rem;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  background: #fafafa;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparison-table th {
+  background: #2e7d32;
+  color: white;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.comparison-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+.comparison-table tr:nth-child(even) {
+  background: #f1f8e9;
+}
+
+.didactic-box {
+  background: #e8f5e9;
+  border-left: 5px solid #2e7d32;
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.didactic-box h5 {
+  font-size: 1rem;
+  color: #1b5e20;
+  margin-bottom: 6px;
+}
+
+.didactic-box p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #33691e;
+}
+
+.math-summary-box {
+  background: #f3e5f5;
+  border-left: 5px solid #8e24aa;
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.math-summary-box h5 {
+  font-size: 1rem;
+  color: #6a1b9a;
+  margin-bottom: 6px;
+}
+
+.math-summary-box p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #4a148c;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (TABLETS E CELULARES)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .lab-bench {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  
+  .filter-station {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  
+  .map-container {
+    height: 480px;
+  }
+
+  .mobile-dpad {
+    display: grid;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .hud-center {
+    justify-content: space-between;
+  }
+  
+  .sample-inspect-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .sample-jar-display {
+    margin: 0 auto;
+  }
+  
+  .sensory-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .math-options-row {
+    justify-content: center;
+  }
+  
+  .modal-content {
+    max-height: 94vh;
+  }
+}
